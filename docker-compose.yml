@@ -1,0 +1,32 @@
+version: "3"
+   
+services:
+    db:
+      restart: always
+      image: postgres
+      volumes:
+        - ./data/db:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=bsdb
+        - POSTGRES_USER=sanjay
+        - POSTGRES_PASSWORD=sanjay@123
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: bs-pgadmin 
+        depends_on:
+            - db
+        ports:
+            - "5051:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+            PGADMIN_DEFAULT_PASSWORD: root
+        restart: always
+    web:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/app
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
