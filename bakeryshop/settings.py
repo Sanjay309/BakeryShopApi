@@ -128,3 +128,58 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# MY CONFIG
+AUTH_USER_MODEL = 'accounts.User'
+
+FIXER_ACCESS_KEY = 'af575e134aa2b86e0c8ed6ac94710bf6'
+
+ADMINS = [('sanjay','sanjaychhabarwal0022@gmail.com',),]
+# sets JWT expiring interval
+JWT_EXPIRES = 10
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'error',
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
+}
+
+# set password reset lifetime, in minutes
+PASSWORD_RESET_LIFETIME = 60 #1 hr
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+
+
+# SIMPLEJWT
+from datetime import timedelta
+SIMPLE_JWT = {
+    # shouldbe a lot shorter, like 5 mins
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+    # shouldbe a lot shorter, like a day
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
+    # give access and refresh token on token refresh
+    'ROTATE_REFRESH_TOKENS':True,
+    # add rotated refresh tokens to blacklist
+    'BLACKLIST_AFTER_ROTATION':True,
+    # secret
+    'SIGNING_KEY': 'django-insecure-b=u66k)1@ttq#*e$7#jv7+!&b0qy9gw0i6v7^x9q9rh(y%oi0y',
+    # to whom is this token intended for
+    'AUDIENCE': 'None',
+    # the issuer
+    'ISSUER': 'None',
+    # auth header prefix
+    'AUTH_HEADER_TYPES': 'Bearer',
+    # user id from users model
+    # USER_ID_FIELD: 'id' # default
+
+    # kay of userid field
+    'USER_ID_CLAIM': 'user_id',
+}
+
+# move this to prod file
+BETA_PHASE = False
